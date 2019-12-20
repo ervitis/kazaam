@@ -1,7 +1,6 @@
 language: go
 
 go:
-- 1.11.x
 - 1.12.x
 - 1.13.x
 
@@ -9,6 +8,8 @@ sudo: false
 
 before_install:
 - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+- go get golang.org/x/tools/cmd/cover
+  go get github.com/mattn/goveralls
 - go get github.com/mitchellh/gox
 - go mod download
 
@@ -19,6 +20,9 @@ script:
 - make check
 - make cover
 - gox -output "bin/{{.Dir}}_{{.OS}}_{{.Arch}}" ./...
+
+after_success:
+  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
 
 deploy:
   provider: releases
