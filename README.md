@@ -1,9 +1,9 @@
 # kazaam
 
-[![Travis Build Status](https://img.shields.io/travis/qntfy/kazaam.svg?branch=master)](https://travis-ci.org/qntfy/kazaam)
-[![Coverage Status](https://coveralls.io/repos/github/qntfy/kazaam/badge.svg?branch=master)](https://coveralls.io/github/qntfy/kazaam?branch=master)
+[![Travis Build Status](https://img.shields.io/travis/ervitis/kazaam.svg?branch=master)](https://travis-ci.org/qntfy/kazaam)
+[![Coverage Status](https://coveralls.io/repos/github/ervitis/kazaam/badge.svg?branch=master)](https://coveralls.io/github/qntfy/kazaam?branch=master)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![GitHub release](https://img.shields.io/github/release/qntfy/kazaam.svg?maxAge=3600)](https://github.com/ervitis/kazaam/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/ervitis/kazaam.svg?maxAge=3600)](https://github.com/ervitis/kazaam/releases/latest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ervitis/kazaam)](https://goreportcard.com/report/github.com/ervitis/kazaam)
 [![GoDoc](https://godoc.org/github.com/ervitis/kazaam?status.svg)](http://godoc.org/gopkg.in/qntfy/kazaam.v3)
 
