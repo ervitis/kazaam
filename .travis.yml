@@ -20,7 +20,7 @@ install: true
 script:
   - make check
   - make cover
-  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
+  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 
 after_success:
   - gox -output "bin/{{.Dir}}_{{.OS}}_{{.Arch}}" ./...
