@@ -1,15 +1,18 @@
 language: go
+
 go:
 - 1.x
+
 before_install:
-- go get github.com/mattn/goveralls
-- go get golang.org/x/tools/cmd/cover
+- go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 - go get github.com/mitchellh/gox
-- go get github.com/Masterminds/glide
-- glide up
+- go mod download
+
 script:
-- "$HOME/gopath/bin/goveralls -service=travis-ci -v"
+- make check
+- make cover
 - gox -output "bin/{{.Dir}}_{{.OS}}_{{.Arch}}" ./...
+
 deploy:
   provider: releases
   api_key:
@@ -22,5 +25,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+
 env:
-  global:
+  - GO111MODULE=on
