@@ -146,7 +146,7 @@ func TestSetJSONRawBadIndex(t *testing.T) {
 	_, err := setJSONRaw([]byte(`{"data":["value"]}`), []byte(`"newValue"`), "data[g].key", ".")
 
 	errMsg := `Warn: Unable to coerce index to integer: g`
-	if err.Error() != errMsg {
+	if err != nil && err.Error() != errMsg {
 		t.Error("Error data does not match expectation.")
 		t.Log("Expected:   ", errMsg)
 		t.Log("Actual:     ", err.Error())
