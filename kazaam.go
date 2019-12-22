@@ -152,7 +152,7 @@ func New(specString string, config Config) (*Kazaam, error) {
 func (k *Kazaam) getTransform(s *spec) TransformFunc {
 	// getting a non-existent transform is checked against before this function is
 	// called, hence the _
-	tform, _ := k.config.transforms[*s.Operation]
+	tform := k.config.transforms[*s.Operation]
 	return tform
 }
 

@@ -56,6 +56,8 @@ func getInput(inputFilename string, file *os.File) (string, error) {
 func main() {
 	flag.Parse()
 
+	kazaam.Log = kazaam.NewLogger(*verbose)
+
 	k, err := loadKazaamTransform(*specFilename)
 	if err != nil {
 		log.Fatal("Trouble loading specification", err)

@@ -27,7 +27,7 @@ func TestLoadKazaamTransformWithInvalidFile(t *testing.T) {
 	if err != nil {
 		t.Error("Unable to create tmpfile for test", err)
 	}
-	fd.WriteString(`{"invalid json"}`)
+	_, _ = fd.WriteString(`{"invalid json"}`)
 	defer os.Remove(fd.Name())
 	defer fd.Close()
 
@@ -42,7 +42,7 @@ func TestLoadKazaamTransform(t *testing.T) {
 	if err != nil {
 		t.Error("Unable to create tmpfile for test", err)
 	}
-	fd.WriteString(`[{"operation": "pass"}]`)
+	_, _ = fd.WriteString(`[{"operation": "pass"}]`)
 	fd.Close()
 	defer os.Remove(fd.Name())
 
@@ -58,8 +58,8 @@ func TestGetInputByFilename(t *testing.T) {
 	if err != nil {
 		t.Error("Unable to create tmpfile for test", err)
 	}
-	fd.WriteString(filenameTestData)
-	fd.Close()
+	_, _ = fd.WriteString(filenameTestData)
+	_ = fd.Close()
 	defer os.Remove(fd.Name())
 
 	data, err := getInput(fd.Name(), nil)
@@ -77,8 +77,8 @@ func TestGetInputByFileHandle(t *testing.T) {
 	if err != nil {
 		t.Error("Unable to create tmpfile for test", err)
 	}
-	fd.WriteString(fileHandleTestData)
-	fd.Seek(0, 0)
+	_, _ = fd.WriteString(fileHandleTestData)
+	_, _ = fd.Seek(0, 0)
 	defer os.Remove(fd.Name())
 
 	data, err := getInput("", fd)
@@ -95,7 +95,7 @@ func TestGetInputByClosedFileHandle(t *testing.T) {
 	if err != nil {
 		t.Error("Unable to create tmpfile for test", err)
 	}
-	fd.Close()
+	_ = fd.Close()
 	defer os.Remove(fd.Name())
 
 	_, err = getInput("", fd)
@@ -109,10 +109,10 @@ func TestGetInputPriority(t *testing.T) {
 	fileHandleTestData := `testByFileHandle`
 	fdA, _ := ioutil.TempFile("", "kz-main-test-")
 	fdB, _ := ioutil.TempFile("", "kz-main-test-")
-	fdA.WriteString(filenameTestData)
+	_, _ = fdA.WriteString(filenameTestData)
 	defer os.Remove(fdA.Name())
-	fdB.WriteString(fileHandleTestData)
-	fdB.Seek(0, 0)
+	_, _ = fdB.WriteString(fileHandleTestData)
+	_, _ = fdB.Seek(0, 0)
 	defer os.Remove(fdA.Name())
 
 	data, err := getInput(fdA.Name(), fdB)

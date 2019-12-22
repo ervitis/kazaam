@@ -8,7 +8,7 @@ import (
 
 func inArray(val []byte, arr [][]byte) bool {
 	for _, arrVal := range arr {
-		if bytes.Compare(val, arrVal) == 0 {
+		if bytes.Equal(val, arrVal) {
 			return true
 		}
 	}
@@ -17,7 +17,7 @@ func inArray(val []byte, arr [][]byte) bool {
 
 // Coalesce checks multiple keys and returns the first matching key found in raw []byte.
 func Coalesce(spec *Config, data []byte) ([]byte, error) {
-	if spec.Require == true {
+	if spec.Require {
 		return nil, SpecError("Invalid spec. Coalesce does not support \"require\"")
 	}
 

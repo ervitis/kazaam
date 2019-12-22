@@ -17,9 +17,9 @@ func Shift(spec *Config, data []byte) ([]byte, error) {
 		var keyList []string
 
 		// check if `v` is a string or list and build a list of keys to evaluate
-		switch v.(type) {
+		switch d := v.(type) {
 		case string:
-			keyList = append(keyList, v.(string))
+			keyList = append(keyList, d)
 			array = false
 		case []interface{}:
 			for _, vItem := range v.([]interface{}) {

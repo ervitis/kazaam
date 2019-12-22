@@ -43,7 +43,7 @@ type Config struct {
 
 var (
 	NonExistentPath = RequireError("Path does not exist")
-	jsonPathRe      = regexp.MustCompile("([^\\[\\]]+)\\[(.*?)\\]")
+	jsonPathRe      = regexp.MustCompile(`([^\\[\]]+)\\[(.*?)\\]`)
 )
 
 // Given a json byte slice `data` and a kazaam `path` string, return the object at the path in data if it exists.
@@ -53,7 +53,7 @@ func getJSONRaw(data []byte, path string, pathRequired bool, keySeparator string
 	for element, k := range objectKeys {
 		// check the object key to see if it also contains an array reference
 		arrayRefs := jsonPathRe.FindAllStringSubmatch(k, -1)
-		if arrayRefs != nil && len(arrayRefs) > 0 {
+		if len(arrayRefs) > 0 {
 			objKey := arrayRefs[0][1]      // the key
 			arrayKeyStr := arrayRefs[0][2] // the array index
 			err := validateArrayKeyString(arrayKeyStr)
@@ -144,7 +144,7 @@ func setJSONRaw(data, out []byte, path, keySeparator string) ([]byte, error) {
 	numOfInserts := 0
 	for element, k := range splitPath {
 		arrayRefs := jsonPathRe.FindAllStringSubmatch(k, -1)
-		if arrayRefs != nil && len(arrayRefs) > 0 {
+		if len(arrayRefs) > 0 {
 			objKey := arrayRefs[0][1]      // the key
 			arrayKeyStr := arrayRefs[0][2] // the array index
 			err = validateArrayKeyString(arrayKeyStr)
@@ -216,7 +216,7 @@ func delJSONRaw(data []byte, path string, pathRequired bool, keySeparator string
 
 	for element, k := range splitPath {
 		arrayRefs := jsonPathRe.FindAllStringSubmatch(k, -1)
-		if arrayRefs != nil && len(arrayRefs) > 0 {
+		if len(arrayRefs) > 0 {
 			objKey := arrayRefs[0][1]      // the key
 			arrayKeyStr := arrayRefs[0][2] // the array index
 			err = validateArrayKeyString(arrayKeyStr)

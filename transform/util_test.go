@@ -10,7 +10,7 @@ const testJSONInput = `{"rating":{"example":{"value":3},"primary":{"value":3}}}`
 
 func getConfig(spec string, require bool) Config {
 	var f map[string]interface{}
-	json.Unmarshal([]byte(spec), &f)
+	_ = json.Unmarshal([]byte(spec), &f)
 	return Config{Spec: &f, Require: require, KeySeparator: "."}
 }
 

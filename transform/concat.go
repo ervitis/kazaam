@@ -35,7 +35,7 @@ func Concat(spec *Config, data []byte) ([]byte, error) {
 			if ok {
 				zed, err := getJSONRaw(data, path.(string), spec.Require, spec.KeySeparator)
 				switch {
-				case err != nil && spec.Require == true:
+				case err != nil && spec.Require:
 					return nil, RequireError("Path does not exist")
 				case err != nil:
 					value = ""
@@ -43,11 +43,13 @@ func Concat(spec *Config, data []byte) ([]byte, error) {
 					switch zed[0] {
 					case '[':
 						temp := ""
-						jsonparser.ArrayEach(zed, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
-							if bytes.Compare(value, []byte("null")) != 0 {
+						if _, err := jsonparser.ArrayEach(zed, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
+							if bytes.Equal(value, []byte("null")) {
 								temp += string(value)
 							}
-						})
+						}); err != nil {
+							return nil, err
+						}
 						value = temp
 					case '"':
 						value = string(zed[1 : len(zed)-1])

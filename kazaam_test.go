@@ -18,7 +18,7 @@ func TestDefaultKazaamGetUnknownTransform(t *testing.T) {
 
 func TestKazaamWithRegisteredTransform(t *testing.T) {
 	kc := NewDefaultConfig()
-	kc.RegisterTransform("3rd-party", func(spec *transform.Config, data []byte) ([]byte, error) {
+	_ = kc.RegisterTransform("3rd-party", func(spec *transform.Config, data []byte) ([]byte, error) {
 		data, _ = jsonparser.Set(data, []byte("doesnt-exist"), "does-exist")
 		return data, nil
 	})
@@ -90,7 +90,7 @@ func ExampleConfig_RegisterTransform() {
 
 	// register the new custom transform called "copy" which supports copying the
 	// value of a top-level key to another top-level key
-	kc.RegisterTransform("copy", func(spec *transform.Config, data []byte) ([]byte, error) {
+	_ = kc.RegisterTransform("copy", func(spec *transform.Config, data []byte) ([]byte, error) {
 		// the internal `Spec` will contain a mapping of source and target keys
 		for targetField, sourceFieldInt := range *spec.Spec {
 			sourceField := sourceFieldInt.(string)

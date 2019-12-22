@@ -372,7 +372,7 @@ func TestKazaamNoModify(t *testing.T) {
 
 func TestConfigdKazaamGet3rdPartyTransform(t *testing.T) {
 	kc := kazaam.NewDefaultConfig()
-	kc.RegisterTransform("3rd-party", func(spec *transform.Config, data []byte) ([]byte, error) {
+	_ = kc.RegisterTransform("3rd-party", func(spec *transform.Config, data []byte) ([]byte, error) {
 		data, _ = jsonparser.Set(data, []byte(`"does-exist"`), "doesnt-exist")
 		return data, nil
 	})

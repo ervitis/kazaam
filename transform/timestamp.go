@@ -39,9 +39,9 @@ func Timestamp(spec *Config, data []byte) ([]byte, error) {
 		var err error
 
 		if inputFormat == "$now" {
-			t, err := now().MarshalText()
-			if err != nil {
-				return nil, err
+			t, errParse := now().MarshalText()
+			if errParse != nil {
+				return nil, errParse
 			}
 			dataForV = bookend(t, '"', '"')
 			// this is the standard format that `time.Now().String()` uses
@@ -54,20 +54,21 @@ func Timestamp(spec *Config, data []byte) ([]byte, error) {
 			}
 		}
 		// if the key is missing bail and keep iterating
-		if bytes.Compare(dataForV, []byte("null")) == 0 {
+		if bytes.Equal(dataForV, []byte("null")) {
 			continue
 		}
 		// can only parse and format strings and arrays of strings, check the
 		// value type and handle accordingly
 		switch dataForV[0] {
 		case '"':
-			formattedItem, err := parseAndFormatValue(inputFormat, outputFormat, string(dataForV[1:len(dataForV)-1]))
-			if err != nil {
-				return nil, err
+			var errFormat error
+			formattedItem, errFormat := parseAndFormatValue(inputFormat, outputFormat, string(dataForV[1:len(dataForV)-1]))
+			if errFormat != nil {
+				return nil, errFormat
 			}
-			data, err = setJSONRaw(data, []byte(formattedItem), k, spec.KeySeparator)
-			if err != nil {
-				return nil, err
+			data, errFormat = setJSONRaw(data, []byte(formattedItem), k, spec.KeySeparator)
+			if errFormat != nil {
+				return nil, errFormat
 			}
 		case '[':
 			var unformattedItems []string
@@ -102,10 +103,11 @@ func parseAndFormatValue(inputFormat, outputFormat, unformattedItem string) (str
 		parsedItem    time.Time
 		formattedItem string
 		err           error
+		i             int64
 	)
 
 	if inputFormat == unixFormat {
-		i, err := strconv.ParseInt(unformattedItem, 10, 64)
+		i, err = strconv.ParseInt(unformattedItem, 10, 64)
 		if err != nil {
 			return "", err
 		}
